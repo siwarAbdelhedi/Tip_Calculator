@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const swaggerSetup = require('./swagger');
+
 require('dotenv').config();
 
 const app = express();
@@ -26,5 +28,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
+
+swaggerSetup(app);
 
 module.exports = app;
