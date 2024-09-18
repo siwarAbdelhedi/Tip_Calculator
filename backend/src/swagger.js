@@ -1,7 +1,6 @@
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-// Configuration de Swagger
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
@@ -29,7 +28,7 @@ const swaggerOptions = {
       bearerAuth: []
     }],
   },
-  apis: ['./src/routes/*.js'], // Fichiers contenant les commentaires Swagger
+  apis: ['./src/routes/*.js'], 
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
