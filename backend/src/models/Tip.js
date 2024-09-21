@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const staffSchema = new mongoose.Schema({
+const tipSchema = new mongoose.Schema({
   name: { type: String, required: true },
   position: String,
   active: { type: Boolean, default: true },
@@ -8,4 +8,4 @@ const staffSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model('Staff', staffSchema);
+module.exports = mongoose.model('Tip', tipSchema);

@@ -1,6 +1,8 @@
 const Staff = require('../models/Staff');
 
+// Create a new staff member
 exports.createStaff = async (req, res) => {
+  console.log('Request Body---:', req.body); 
   try {
     const staff = new Staff(req.body);
     await staff.save();
@@ -10,6 +12,7 @@ exports.createStaff = async (req, res) => {
   }
 };
 
+// Get all staff members
 exports.getAllStaff = async (req, res) => {
   try {
     const staff = await Staff.find();
@@ -19,6 +22,7 @@ exports.getAllStaff = async (req, res) => {
   }
 };
 
+// Get staff by ID
 exports.getStaffById = async (req, res) => {
   try {
     const staff = await Staff.findById(req.params.id);
