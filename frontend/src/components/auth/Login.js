@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await login({ username, password });
-      alert('Login successful');
+      //alert('Login successful');
       navigate('/staffList');  
     } catch (error) {
       alert('Login failed');
