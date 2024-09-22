@@ -18,6 +18,15 @@ export const getStaff = async () => {
   }
 };
 
+export const getTips = async () => {
+  const response = await axios.get(`${api}/tips`);
+  return response.data;
+};
+
+export const deleteTip = async (tipId) => {
+  await axios.delete(`${api}/tips/${tipId}`);
+};
+
 // export const registerAdmin = (credentials) => {
 //   return api.post('/auth/register', credentials); // Register endpoint, if needed
 // };

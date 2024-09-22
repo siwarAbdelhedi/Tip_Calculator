@@ -1,5 +1,9 @@
+import React from 'react';
+
 import { useEffect, useState } from 'react';
 import { getTips, deleteTip } from '../../services/api';
+
+
 
 const TipList = () => {
   const [tips, setTips] = useState([]);

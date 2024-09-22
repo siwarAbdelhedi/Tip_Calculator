@@ -33,6 +33,8 @@ exports.getStaffById = async (req, res) => {
   }
 };
 
+
+// Delete Staff 
 exports.updateStaff = async (req, res) => {
   try {
     const staff = await Staff.findByIdAndUpdate(req.params.id, req.body, { new: true });

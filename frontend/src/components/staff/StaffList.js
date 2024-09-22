@@ -1,23 +1,25 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const StaffList = () => {
   const [staff, setStaff] = useState([]);
   const [newStaff, setNewStaff] = useState({ name: '', surname: '', amount: '', service: '', shift: '' });
   const [error, setError] = useState('');
+  const [selectedStaff, setSelectedStaff] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const token = localStorage.getItem('token'); 
-        // console.log('Token utilisé:', token);
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:3000/api/staff', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setStaff(response.data); 
-        // console.log('FRONT:', response.data);
+        setStaff(response.data);
       } catch (error) {
         console.error('Error fetching staff:', error);
         setError('Erreur lors de la récupération du personnel');
@@ -59,12 +61,19 @@ const StaffList = () => {
     }
   };
 
+  const handleStaffSelection = (staffMember) => {
+    setSelectedStaff(prevSelected => {
+      const isAlreadySelected = prevSelected.some(s => s._id === staffMember._id);
+      if (isAlreadySelected) {
+        return prevSelected.filter(s => s._id !== staffMember._id);
+      } else {
+        return [...prevSelected, staffMember];
+      }
+    });
+  };
+
   const renderStaffList = (serviceName) => {
-    // console.log('Rendering staff for service:', serviceName);
-    // console.log('All staff:', staff);
-    
     const filteredStaff = staff.filter(s => {
-      // console.log('Checking staff member:', s);
       return (
         (typeof s.service === 'string' && s.service === serviceName) ||
         (typeof s.service === 'object' && s.service && s.service.name === serviceName) ||
@@ -72,41 +81,39 @@ const StaffList = () => {
       );
     });
     
-    console.log('Filtered staff:', filteredStaff);
-    
     return filteredStaff.map(s => (
-      <li key={s._id} className="mb-2">
+      <li key={s._id} className="mb-2 flex items-center">
+        <input
+          type="checkbox"
+          checked={selectedStaff.some(selected => selected._id === s._id)}
+          onChange={() => handleStaffSelection(s)}
+          className="mr-2"
+        />
         {s.name} {s.surname} (Service: {typeof s.service === 'string' ? s.service : s.service?.name || 'Non spécifié'})
       </li>
     ));
   };
 
-
-
+  const goToNextPage = () => {
+    navigate('/ServiceShift', { state: { selectedStaff } });
+  };
 
   return (
     <div className="p-4">
-    {error && <div className="text-red-500 mb-4">{error}</div>}
+      {error && <div className="text-red-500 mb-4">{error}</div>}
 
-    <div className="flex justify-between mb-4">
-      <div className="w-[48%] border rounded-lg shadow-md">
-        <div className="border-b p-2 text-center font-bold">
+      <div className="flex justify-between">
+        <div className="border-b p-2 text-center font-bold w-1/2">
           Personnel en Salle
-        </div>
-        <div className="p-4">
           <ul className="list-disc pl-5">
             {renderStaffList('Salle').length > 0 
               ? renderStaffList('Salle') 
               : <li>Aucun personnel en Salle</li>}
           </ul>
         </div>
-      </div>
 
-      <div className="w-[48%] border rounded-lg shadow-md">
-        <div className="border-b p-2 text-center font-bold">
+        <div className="border-b p-2 text-center font-bold w-1/2">
           Personnel en Cuisine
-        </div>
-        <div className="p-4">
           <ul className="list-disc pl-5">
             {renderStaffList('Cuisine').length > 0 
               ? renderStaffList('Cuisine') 
@@ -114,9 +121,6 @@ const StaffList = () => {
           </ul>
         </div>
       </div>
-    </div>
-
-
 
       <h2 className="text-xl font-semibold mt-4 mb-4">Ajouter un nouveau membre du personnel</h2>
       <input
@@ -160,6 +164,14 @@ const StaffList = () => {
       </select>
       <button onClick={handleAddStaff} className="bg-blue-500 text-white px-4 py-2 mt-2">
         Ajouter un membre
+      </button>
+
+      <button 
+        onClick={goToNextPage} 
+        className="bg-blue-500 text-white px-4 py-2 mt-2 ml-2"
+        disabled={selectedStaff.length === 0}
+      >
+        Page suivante
       </button>
     </div>
   );
