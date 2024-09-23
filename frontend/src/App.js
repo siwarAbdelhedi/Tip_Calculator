@@ -4,7 +4,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import Login from './components/auth/Login';
 import StaffList from './components/staff/StaffList';
 import ServiceShift from './components/services/ServiceShift';
-import TipCalculator from './components/tips/TipCalculator'
+import TipCalculator from './components/tips/TipCalculator';
+import StaffDelete from './components/staff/StaffDelete';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/staffList" element={<StaffList />} />
       <Route path="/ServiceShift" element={<ServiceShift />} />
       <Route path='/tipCalculator' element={<TipCalculator />} />
+      <Route path="/delete-staff" element={<StaffDelete />} />
         </Routes>
       </Router>
     </AuthProvider>

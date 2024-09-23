@@ -9,6 +9,6 @@ router.post('/', authMiddleware, staffController.createStaff);
 router.get('/', authMiddleware, staffController.getAllStaff);
 router.get('/:id', staffController.getStaffById);
 router.put('/:id', authMiddleware, staffController.updateStaff);
-router.delete('/:id', authMiddleware, staffController.deleteStaff);
+router.delete('/:id', staffController.deleteStaff);
 
 module.exports = router;
