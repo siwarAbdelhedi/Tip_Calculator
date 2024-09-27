@@ -22,8 +22,6 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 
 Créez un fichier .env à la racine du projet backend avec les variables suivantes :
 
-makefile
-Copier le code
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/tipCalculator
 JWT_SECRET=my_secret_jwt_key_secure123
