@@ -1,34 +1,26 @@
-const Tip = require('../models/Tip');
+const Staff = require('../models/Staff');
 
-exports.calculateTipsByPeriod = async (startDate, endDate) => {
-  const tips = await Tip.find({
-    date: {
-      $gte: startDate,
-      $lte: endDate
+exports.distributeTips = async (staffIds, totalAmount) => {
+    try {
+        const staffMembers = await Staff.find({ _id: { $in: staffIds } });
+
+        if (!staffMembers.length) {
+            throw new Error("Aucun employé trouvé.");
+        }
+
+        const individualTip = totalAmount / staffMembers.length;
+
+        const updatedStaffPromises = staffMembers.map(async (staff) => {
+            staff.tips = (staff.tips || 0) + individualTip;
+            await staff.save();
+            return staff;
+        });
+
+        const updatedStaff = await Promise.all(updatedStaffPromises);
+
+        return updatedStaff;
+    } catch (error) {
+        console.error("Erreur lors de la répartition des pourboires:", error);
+        throw error;
     }
-  }).populate('service').populate('staff');
-
-  const totalAmount = tips.reduce((sum, tip) => sum + tip.amount, 0);
-
-  const tipsByService = tips.reduce((acc, tip) => {
-    if (!acc[tip.service.name]) {
-      acc[tip.service.name] = 0;
-    }
-    acc[tip.service.name] += tip.amount;
-    return acc;
-  }, {});
-
-  const tipsByStaff = tips.reduce((acc, tip) => {
-    if (!acc[tip.staff.name]) {
-      acc[tip.staff.name] = 0;
-    }
-    acc[tip.staff.name] += tip.amount;
-    return acc;
-  }, {});
-
-  return {
-    totalAmount,
-    tipsByService,
-    tipsByStaff
-  };
 };

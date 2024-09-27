@@ -47,12 +47,12 @@ exports.updateStaff = async (req, res) => {
 
 exports.deleteStaff = async (req, res) => {
   try {
-    const staff = await Staff.findById(req.params.id);
-    if (!staff) return res.status(404).json({ message: 'Staff member not found' });
-    staff.active = false;
-    await staff.save();
-    res.json({ message: 'Staff member deactivated successfully' });
+    const staff = await Staff.findByIdAndDelete(req.params.id);
+    if (!staff) {
+      return res.status(404).json({ message: 'Personnel non trouvé' });
+    }
+    res.status(200).json({ message: 'Personnel supprimé avec succès' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Erreur lors de la suppression du personnel', error });
   }
 };

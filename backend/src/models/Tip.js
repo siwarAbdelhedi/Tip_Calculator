@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const tipSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  position: String,
-  active: { type: Boolean, default: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now }
+  staffId: { type: mongoose.Schema.Types.ObjectId, ref: 'Staff', required: true },
+  name: String,
+  tip: Number,
+  shift: String,
+  date: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Tip', tipSchema);

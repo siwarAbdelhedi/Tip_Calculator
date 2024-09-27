@@ -4,6 +4,12 @@ const api = axios.create({
   baseURL: 'http://localhost:3000/api',
 });
 
+
+// export const registerAdmin = (credentials) => {
+//   return api.post('/auth/register', credentials); // Register endpoint, if needed
+// };
+
+
 export const loginAdmin = async (username, password) => {
   return await axios.post('http://localhost:3000/api/auth/login', { username, password });
 };
@@ -18,15 +24,7 @@ export const getStaff = async () => {
   }
 };
 
-export const getTips = async () => {
-  const response = await axios.get(`${api}/tips`);
-  return response.data;
+export const calculateTips = async (tips) => {
+  return await api.post('/tips', { tips });  // Envoi à /api/tips
 };
 
-export const deleteTip = async (tipId) => {
-  await axios.delete(`${api}/tips/${tipId}`);
-};
-
-// export const registerAdmin = (credentials) => {
-//   return api.post('/auth/register', credentials); // Register endpoint, if needed
-// };
