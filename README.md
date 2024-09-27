@@ -15,15 +15,17 @@ Avant de commencer, assurez-vous d'avoir installé les éléments suivants sur v
 ## Installation
 
 1. **Cloner le dépôt** :
-   git clone https://github.com/votre-utilisateur/votre-projet.git
-   cd votre-projet
+   git clone [https://github.com/votre-utilisateur/votre-projet.git](https://github.com/siwarAbdelhedi/Tip_Calculator.git)
+   cd Tip_Calculator
 
 2. Configurer les variables d'environnement :
 
 Créez un fichier .env à la racine du projet backend avec les variables suivantes :
 
 PORT=3000
+
 MONGODB_URI=mongodb://localhost:27017/tipCalculator
+
 JWT_SECRET=my_secret_jwt_key_secure123
 
 3. Installer les dépendances :
